@@ -1,0 +1,44 @@
+.ammoClip {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-flow: row nowrap;
+  height: 120px;
+
+  .bullet {
+    margin: 10px;
+    width: 20px;
+    position: relative;
+    &.-isDark {
+      @include compact-rounded-corners(true);
+      @include compact-border-image($primary-color-dark);
+      border-image-outset: 2;
+      background-color: $primary-color-dark;
+    }
+
+    &.-isLight {
+      @include compact-rounded-corners();
+      @include compact-border-image($low_dark_color);
+      background-color: $high_light_color;
+    }
+    .bulletInner {
+      position: absolute;
+      top: 4px;
+      left: 3px;
+      width: 7px;
+      height: 78px;
+      &.-isDark {
+        @include compact-rounded-corners(true);
+        @include compact-border-image($high_light_color);
+        border-image-outset: 2;
+        background-color: $high_light_color;
+      }
+  
+      &.-isLight {
+        @include compact-rounded-corners();
+        @include compact-border-image($low_dark_color);
+        background-color: $low_dark_color;
+      }
+    }
+  }
+}

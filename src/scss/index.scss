@@ -1,12 +1,26 @@
 @import "normalize.css";
-@import "UI";
+@import "../../node_modules/nes.css/scss/base/color-palette.scss";
+@import "../../node_modules/nes.css/scss/base/variables.scss";
+
+// @import "../../node_modules/nes.css/scss/";
+@import "../../node_modules/nes.css/scss/utilities/rounded-corners-mixin.scss";
+@import "variables";
 @import "game";
+@import "ui";
+
+@font-face {
+  font-family: Pixeboy;
+  src: url("../fonts/Pixeboy.ttf");
+}
 
 #root,
 body,
-html {
+html,
+.app {
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
+  font-family: Pixeboy;
 }
 
 #root {
@@ -14,6 +28,7 @@ html {
   justify-content: center;
   align-items: center;
 }
+
 .app {
-  border-radius: 10px;
+  cursor: crosshair;
 }

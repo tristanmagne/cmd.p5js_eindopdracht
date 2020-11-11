@@ -1,0 +1,45 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  min-height: 2rem;
+  flex-wrap: nowrap;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  a {
+    text-decoration: none;
+    outline: none;
+    padding: 0.75rem 2rem;
+    user-select: none;
+    margin: 0 20px;
+    
+    
+    &.-isDark {
+      @include compact-rounded-corners(true);
+      @include compact-border-image($high_light_color);
+      color: $high_light_color;
+      box-shadow: $high_light_color;
+      border-image-outset: 2;
+    }
+
+    &.-isLight {
+      @include compact-rounded-corners();
+      @include compact-border-image($low_dark_color);
+      color: $low_dark_color;
+    }
+  }
+
+  .menuStart {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .menuEnd {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+  }
+}
