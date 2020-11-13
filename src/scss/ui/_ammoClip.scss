@@ -19,7 +19,7 @@
     &.-isLight {
       @include compact-rounded-corners();
       @include compact-border-image($low_dark_color);
-      background-color: $high_light_color;
+      background-color: #fff;
     }
     .bulletInner {
       position: absolute;

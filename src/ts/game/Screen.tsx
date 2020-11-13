@@ -1,64 +1,69 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import p5, { p5InstanceExtensions } from "p5";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import Sketch from "react-p5";
+import { StateContext } from "~ts/State";
 import { Character, characterHook } from "./structures/Character";
 
 export const Screen: React.FC = () => {
-  let hasReleased: boolean = true;
-
-  let { current: mouseOnCanvas } = useRef(false);
-  function mouseEnterListener(event: Event) {
-    event.currentTarget?.addEventListener("mouseleave", mouseLeaveListener, { once: true });
-    mouseOnCanvas = true;
-  }
-
-  function mouseLeaveListener(event: Event) {
-    event.currentTarget?.addEventListener("mouseenter", mouseEnterListener, { once: true });
-    mouseOnCanvas = false;
-  }
-
+  const { darkTheme } = useContext(StateContext);
   const character = characterHook();
   const [[width, height], setSize] = useState([
     window.innerWidth - 20 * 2 - 10 * 2,
     window.innerHeight / 2.5,
   ]);
+
   let { current: player } = useRef<Character>(null);
-  const canvas = useMemo(
-    () => (
-      <Sketch
-        style={{ width, height }}
-        className={"viewport"}
-        setup={(p5, canvasParentRef) => {
-          p5.createCanvas(width, height).parent(canvasParentRef);
-          canvasParentRef.addEventListener("mouseenter", mouseEnterListener, { once: true });
-          player = character(p5);
-        }}
-        mouseMoved={(p5) => {
-          if (!player) player = character(p5);
-          if (player.hidden) player.show();
-          if (!mouseOnCanvas) mouseOnCanvas = true;
-        }}
-        draw={(p5) => {
-          p5.background("#1B2932");
+  let {current: mouseOnCanvas } = useRef(false);
+  let {current: hasReleased } = useRef(true);
+  let parentRef = useRef<HTMLDivElement>(null);
+  let { current: myP5 } = useRef<p5InstanceExtensions>(null);
+
+  function mouseEnterListener() {
+    mouseOnCanvas = true;
+    console.log("enter", mouseOnCanvas, hasReleased);
+  };
+  function mouseLeaveListener() {
+    mouseOnCanvas = false;
+    console.log("leave", mouseOnCanvas, hasReleased);
+  };
+
+  useEffect(() => {
+    if (parentRef.current) {
+      myP5 = new p5(p => {
+        p.setup = () => {
+          p.createCanvas(width, height);
+          parentRef.current?.addEventListener("mouseenter", mouseEnterListener);
+          parentRef.current?.addEventListener("mouseleave", mouseLeaveListener);
+          player = character(p);
+        };
+        p.mouseMoved = () => {
+          if (!player) player = character(p);
+          if (player.hidden && mouseOnCanvas) player.show();
+        };
+        p.draw = () => {
+          p.background(darkTheme ? "#1B2932" : "whitesmoke");
           player?.display();
-          if (p5.mouseIsPressed && hasReleased && mouseOnCanvas) {
+          if (p.mouseIsPressed && hasReleased && mouseOnCanvas) {
             player?.shoot(() => (hasReleased = false));
           }
-        }}
-        mouseReleased={() => (hasReleased = true)}
-      />
-    ),
-    [width, height],
-  );
+        };
+        p.mouseReleased = () => (hasReleased = true);
+    }, parentRef.current);
+  }
+    return () => {
+      myP5 = null;
+      document.querySelector("canvas")?.remove();
+    };
+  }, [parentRef.current, width, height, darkTheme]);
 
   useEffect(() => {
     const listener = () => setSize([window.innerWidth - 20 * 2 - 10 * 2, window.innerHeight / 2.5]);
     window.addEventListener("resize", listener);
     return () => window.removeEventListener("resize", listener);
-  });
+  }, []);
 
   return (
-    <div className="screen" style={{ backgroundColor: "#1B2932" }}>
-      {canvas}
+    <div className="screen" style={darkTheme ? { backgroundColor: "#1B2932" } : { boxShadow: "inset 0 0 0 1px black",}} ref={parentRef}>
     </div>
   );
 };

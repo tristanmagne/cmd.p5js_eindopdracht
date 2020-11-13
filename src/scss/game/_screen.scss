@@ -1,10 +1,10 @@
 .screen {
   cursor: none;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: whitesmoke;
   margin: 10px 20px;
 
-  .viewport {
+  canvas {
     display: inline-block;
     padding: 10px;
   }

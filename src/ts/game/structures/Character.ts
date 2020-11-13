@@ -1,7 +1,7 @@
 import { debounce, DebouncedFunc } from "lodash";
 import { p5InstanceExtensions } from "p5";
-import { useCallback, useContext } from "react";
-import { action, ActionType, DispatchContext } from "~ts/State";
+import { useCallback, useContext, useEffect } from "react";
+import { action, ActionType, DispatchContext, StateContext } from "~ts/State";
 
 export interface Character {
   hide(): void;
@@ -12,6 +12,7 @@ export interface Character {
 }
 
 export function characterHook() {
+  const { darkTheme } = useContext(StateContext);
   const dispatch = useContext(DispatchContext);
   const debouncedDispatch = debounce(dispatch, 50);
   const character = useCallback(function Character(p5: p5InstanceExtensions): Character {
@@ -41,7 +42,7 @@ export function characterHook() {
         // go to new drawing layer
         p5.push();
         p5.noStroke();
-        p5.fill("#496D83");
+        p5.fill(darkTheme ? "#496D83" : "#363636");
         p5.translate(p5.mouseX, p5.mouseY);
 
         const dx = p5.pmouseX - p5.mouseX;
@@ -84,7 +85,7 @@ export function characterHook() {
       }, 50,{ leading: true } ),
       hidden,
     };
-  }, []);
+  }, [darkTheme]);
 
   return character;
 }
