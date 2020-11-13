@@ -14,7 +14,7 @@ export enum ActionType {
   INC = "increment",
   DEC = "decrement",
   RESET = "reset",
-  TOGGLE_THEME = "toggleTheme"
+  TOGGLE_THEME = "toggleTheme",
 }
 
 export const initialState: State = { ammo: 6, darkTheme: true };

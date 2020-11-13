@@ -13,23 +13,23 @@ export const Screen: React.FC = () => {
   ]);
 
   let { current: player } = useRef<Character>(null);
-  let {current: mouseOnCanvas } = useRef(false);
-  let {current: hasReleased } = useRef(true);
+  let { current: mouseOnCanvas } = useRef(false);
+  let { current: hasReleased } = useRef(true);
   let parentRef = useRef<HTMLDivElement>(null);
   let { current: myP5 } = useRef<p5InstanceExtensions>(null);
 
   function mouseEnterListener() {
     mouseOnCanvas = true;
     console.log("enter", mouseOnCanvas, hasReleased);
-  };
+  }
   function mouseLeaveListener() {
     mouseOnCanvas = false;
     console.log("leave", mouseOnCanvas, hasReleased);
-  };
+  }
 
   useEffect(() => {
     if (parentRef.current) {
-      myP5 = new p5(p => {
+      myP5 = new p5((p) => {
         p.setup = () => {
           p.createCanvas(width, height);
           parentRef.current?.addEventListener("mouseenter", mouseEnterListener);
@@ -48,8 +48,8 @@ export const Screen: React.FC = () => {
           }
         };
         p.mouseReleased = () => (hasReleased = true);
-    }, parentRef.current);
-  }
+      }, parentRef.current);
+    }
     return () => {
       myP5 = null;
       document.querySelector("canvas")?.remove();
@@ -63,7 +63,10 @@ export const Screen: React.FC = () => {
   }, []);
 
   return (
-    <div className="screen" style={darkTheme ? { backgroundColor: "#1B2932" } : { boxShadow: "inset 0 0 0 1px black",}} ref={parentRef}>
-    </div>
+    <div
+      className="screen"
+      style={darkTheme ? { backgroundColor: "#1B2932" } : { boxShadow: "inset 0 0 0 1px black" }}
+      ref={parentRef}
+    ></div>
   );
 };

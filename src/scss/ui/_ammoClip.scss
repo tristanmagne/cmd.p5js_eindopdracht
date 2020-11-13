@@ -33,7 +33,7 @@
         border-image-outset: 2;
         background-color: $high_light_color;
       }
-  
+
       &.-isLight {
         @include compact-rounded-corners();
         @include compact-border-image($low_dark_color);

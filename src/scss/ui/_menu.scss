@@ -13,8 +13,7 @@
     padding: 0.75rem 2rem;
     user-select: none;
     margin: 0 20px;
-    
-    
+
     &.-isDark {
       @include compact-rounded-corners(true);
       @include compact-border-image($high_light_color);

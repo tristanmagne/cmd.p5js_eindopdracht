@@ -7,10 +7,18 @@ export const Menu: React.FC = () => {
   return (
     <div className="menu">
       <div className="menuStart">
-        <a onClick={() => dispatch(action(ActionType.RESET))} className={darkTheme ? "-isDark" : "-isLight"}>reset</a>
+        <a
+          onClick={() => dispatch(action(ActionType.RESET))}
+          className={darkTheme ? "-isDark" : "-isLight"}
+        >
+          reset
+        </a>
       </div>
       <div className="menuEnd">
-        <a onClick={() => dispatch(action(ActionType.TOGGLE_THEME))} className={darkTheme ? "-isDark" : "-isLight"}>
+        <a
+          onClick={() => dispatch(action(ActionType.TOGGLE_THEME))}
+          className={darkTheme ? "-isDark" : "-isLight"}
+        >
           {darkTheme ? "Go Light!" : "Go Dark!"}
         </a>
       </div>

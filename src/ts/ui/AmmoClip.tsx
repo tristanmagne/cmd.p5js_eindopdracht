@@ -20,7 +20,11 @@ export const AmmoClip: React.FC = () => {
     const clip: JSX.Element[] = [];
     for (let index = 0; index < clipSize; index++) {
       clip.push(
-        <div key={`bullet_${index}`} className={`bullet ${darkTheme ? "-isDark" : "-isLight"}`}>{index < ammo ? <div className={`bulletInner ${darkTheme ? "-isDark" : "-isLight"}`}></div> : null}</div>,
+        <div key={`bullet_${index}`} className={`bullet ${darkTheme ? "-isDark" : "-isLight"}`}>
+          {index < ammo ? (
+            <div className={`bulletInner ${darkTheme ? "-isDark" : "-isLight"}`}></div>
+          ) : null}
+        </div>,
       );
     }
     return clip;
